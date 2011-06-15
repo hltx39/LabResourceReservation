@@ -1,0 +1,8 @@
+Basically the Lab Resource Reservation system is a web-based reservation system.
+
+It plans to provide the following basic features:
+    1. Resource add/remove;
+    2. Resource reservation and release;
+    3. Resource usage status display and query;
+    
+Other features may be added in future.
