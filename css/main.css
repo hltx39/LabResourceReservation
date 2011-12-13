@@ -36,7 +36,7 @@ h2.header {
     top: 0px;
     margin-left: auto;
     margin-right: auto;
-    width: 1024px; 
+    width: 1200px; 
     height: 800px;
 }
 #top_container #header {
@@ -84,23 +84,17 @@ h2.header {
     background: url(../images/cmxform-divider.gif) left bottom repeat-x;
 }
 
-#resource_fieldset #datepicker {
+#resource_fieldset #selectdate {
     position: relative;
     top: 5px;
     width: inherit;
-    margin-left: 10px;
+    margin-left: 0px;
     padding: 0px;
 }
 #resource_fieldset #lab_resource {
     position: relative;
     width: inherit;
     margin: 10px;
-    padding: 0px;
-}
-#resource_fieldset #lab_resource #lab_resource_tree {
-    position: relative;
-    width: inherit;
-    margin: 0px;
     padding: 0px;
 }
 
@@ -178,6 +172,12 @@ div#reserve_form fieldset table tr {
     height: (100/7)%;
 }
 
+/* error*/
+form#reserve .error {
+    font-style: italic;
+    color: red;
+}
+form#reserve .error .ui-icon {background-image: url(../css/smoothness/images/ui-icons_219b0d_256x240.png); }
 
 .column_center {   text-align: center; }
 
