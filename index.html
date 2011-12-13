@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Demo</title>
+   
+    <link type="text/css" href="css/smoothness/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+    <link type="text/css" href="css/main.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
+    <!--<script type="text/javascript" src="js/jquery.jstree.js"></script>-->
+    <!--<script type="text/javascript" src="js/jquery.jlabel-1.3.min.js"></script>-->
+    <!--<script type="text/javascript" src="js/jquery-idealForms.js"></script>-->
+    <script type="text/javascript">
+    
+    	function generateCalenderColumns(col_idx) {
+	    var hour=8;
+	    var col_selection="ol#column_select" + col_idx;
+	    for (; hour < 18; ++hour) {
+		var list_item = "<li" + " id=col_" + col_idx + "_hour_" + hour + ">空闲</li>";
+		$(list_item).appendTo(col_selection);
+	    }
+	    $(col_selection).find("li").addClass("ui-widget-content");
+	}
+	
+	//function generateLabResourcesForSelection() {
+	//    var labResource = [
+	//	"SmartBits-6000C",
+	//	"Ixia"
+	//    ];
+	//    var lab
+	//	
+	//    
+	//}
+	
+        $(function(){ 
+            //Tab control
+	    var today_date = new Date();
+	    $("span#reserve_date_info").data("date", today_date);
+	    $("span#reserve_date_info").text(today_date.toDateString());
+	    
+            $(".selection").selectable( {
+		stop: function() {
+		    if ( $(".ui-selected", this).length > 0) {
+			$("#reserve").button("enable");	
+		    }
+		}
+	    });
+	    
+	    // From 8:00 to 18:00, 10hours
+	    for (var hour=8; hour < 18; hour++){
+		//Generate the left-most time slot info
+		$('<li>' + hour + ":00" + "</li>").appendTo("ol#daytime");
+		$('<option value="' + hour + '">' + hour + ':00</option>').appendTo("select.daytime");
+	    }
+	    
+	    for (var col_idx=1; col_idx <= 7; col_idx++) {
+		generateCalenderColumns(col_idx);
+	    }
+	    
+	    $("#selectdate").datepicker({
+		    autoSize: true
+		});
+	    
+	    $("button#reserve")
+		.button( { disabled: true } )
+		.click( function() {
+		    $("#calender_table").data("selected", "");
+		    $(".selection").each( function(index) {			
+			var _this = this;
+			$(".ui-selected", _this).each( function() {
+			    var row_index = $(_this).find("li").index(this);
+			    var select_str = $("#calender_table").data("selected") + ":"
+					+ index + " " + row_index;
+			    $("#calender_table").data("selected", select_str);
+			});
+		    });
+		    $("#reserve_form").dialog("open");
+		});
+		
+	    $("#reserve_form").dialog( {
+		autoOpen: false,
+		height: 500,
+		width: 550,
+		modal: true,
+		buttons: {
+		    Cancel: function() {
+			$(this).dialog("close");
+		    }
+		},
+		close: function() {
+		    //allFields.val( "" ).removeClass( "ui-state-error" );
+		}
+	    });
+	    $("#sel_reserve_date").datepicker({
+		    autoSize: true
+		});
+        });
+
+    </script>
+    </head>
+    <body>	
+	<div id="top_container" class="purple_border">
+	    <div id="header">
+		<table border="0">
+		    <tr>
+			<td>
+			    <img src="images/QCA_Logo.gif" alt="QCA_Logo" align="left"/>
+			</td>
+			<td>
+			    <h2 class="header">
+				AE Lab Resource Reservation</h1>
+			</td>
+		    </tr>
+		</table>
+	    </div>
+	    <div id="resource_container" class="purple_border">
+		<form id="resource_form">
+		    <fieldset id="resource_fieldset">
+			<legend>请选择浏览日期和实验室资源</legend>
+			<p>
+			<div id="datepicker" class="purple_border">
+			    <label for="selectdate">选择日期</label>
+			    <input type="text" id="selectdate"></input>
+			</div>
+			</p>
+			<p>
+			<div id="lab_resource">
+			<label>Lab Resource-><span id="view_lab_resource"></span></label>
+			<select title="Select Lab Resource" id="select_lab_resource">
+				    <li id="Smartbits-6000C">
+					<a href="#">Smartbits-6000C</a>
+					<ul>
+					    <li id="Smarbits-6000C-1A"><a href="#">Card 1A</a></li>
+					    <li id="Smarbits-6000C-1B"><a href="#">Card 1B</a></li>
+					    <li id="Smarbits-6000C-2A"><a href="#">Card 2A</a></li>
+					    <li id="Smarbits-6000C-2B"><a href="#">Card 2B</a></li>
+					    <li id="Smarbits-6000C-3A"><a href="#">Card 3A</a></li>
+					    <li id="Smarbits-6000C-3B"><a href="#">Card 3B</a></li>
+					    <li id="Smarbits-6000C-4A"><a href="#">Card 4A</a></li>
+					    <li id="Smarbits-6000C-4B"><a href="#">Card 4B</a></li>
+					    <li id="Smarbits-6000C-5A"><a href="#">Card 5A</a></li>
+					    <li id="Smarbits-6000C-5B"><a href="#">Card 5B</a></li>
+					    <li id="Smarbits-6000C-6A"><a href="#">Card 6A</a></li>
+					    <li id="Smarbits-6000C-6B"><a href="#">Card 6B</a></li>
+					</ul>
+				    </li>
+				    <li id="Ixia-500">
+					<a href="#">Ixia-500</a>
+					<ul>
+					    <li id="Ixia-500-1A"><a href="#">Card 1A</a></li>
+					    <li id="Ixia-500-1B"><a href="#">Card 1B</a></li>
+					</ul>
+				    </li>				
+			</select>
+			</div>
+			</p>
+		    </fieldset>
+		</form>
+	    </div>
+	    
+	    <div id="calender" class="purple_border">
+		<div id="calender_header" class="purple_border">
+		<p>实验室资源 -> <span id="reserve_lab_resource">none</span>, 选定日期 -> <span id="reserve_date_info">none</span></p>
+		</div>
+		<div id="calender_content" class="purple_border">
+		    <table id="calender_table">
+			<tr id="weekday_header">
+			    <th class="first_col"></th>
+			    <th>Sunday</th>
+			    <th>Monday</th>
+			    <th>Tuesday</th>
+			    <th>Wednsday</th>
+			    <th>Thursday</th>
+			    <th>Friday</th>
+			    <th>Saturday</th>
+			</tr>
+			<tr id="calender_rows">
+			    <td class="first_col">
+				<div id="col_header" class="calender_column">
+				<ol id="daytime"> 
+				</ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column1" class="calender_column column_center">
+				    <ol id="column_select1" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column2" class="calender_column column_center">
+				    <ol id="column_select2" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column3" class="calender_column column_center">
+				<ol id="column_select3" class="selection">
+				    
+				</ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column4" class="calender_column column_center">
+				    <ol id="column_select4" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column5" class="calender_column column_center">
+				    <ol id="column_select5" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column6" class="calender_column column_center">
+				    <ol id="column_select6" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			    <td>
+				<div id="column7" class="calender_column column_center">
+				    <ol id="column_select7" class="selection">
+				    </ol>
+				</div>
+			    </td>
+			</tr>
+		    </table>
+		</div>
+		<div id="reservation_container">
+		    <button id="reserve">预定资源</button>
+		</div>
+		<div id="reserve_form" title="预定资源">
+		    <form id="reserve">
+			<legend class="ui-widget ui-widget-header ui-corner-all">填写下列信息</legend>
+			<fieldset class="ui-widget ui-widget-content ui-corner-all">
+			    <table>
+			    <tr>
+				<td><label for="name">姓名:</label></td>
+				<td>
+				    <input type="text" name="name" id="name" class="ui-widget-content ui-corner-all" />
+				</td>
+			    </tr>
+			    <tr>
+				<td>
+				    <label for="email">电子邮件:</label>
+				</td>
+				<td>
+				    <input type="text" name="email" id="email" value="" class="ui-widget-content ui-corner-all" />
+				</td>
+			    </tr>
+			    <tr>
+				<td><label for="sel_reserve_date">日期:</label></td>
+				<td>
+				    <input type="text" name="date" id="sel_reserve_date" value=""/>				   
+				</td>
+			    </tr>
+			    <tr>
+				<td>
+				    <label for="starttime">开始时间:</label>
+				</td>
+				<td>
+				    <select title="Start Time" id="starttime" class="daytime ui-widget ui-corner-all">
+				    </select>
+				</td>
+			    </tr>
+			    <tr>
+				<td>
+				    <label for="endtime">结束时间:</label>
+				</td>
+				<td>
+				    <select title="End Time" id="endtime" class="daytime ui-widget ui-corner-all">
+				    </select>
+				</td>
+			    </tr>
+			    <tr>
+				<td>
+				    <label for="resource">实验室资源:</label>
+				</td>
+				<td>
+				<select id="resource" name="resource">
+				    <option value="Smartbits-6000C">Smartbits-6000C</option>
+				</select>
+				</td>
+			    </tr>
+			    <tr>
+				<td>
+				    <label for="comment">备注:</label>
+				</td>
+				<td>
+				    <textarea id="comment"></textarea>
+				</td>
+			    </tr>
+			    </table>
+			</fieldset>
+		    </form>
+		</div>
+		</div>
+	</div>
+    </body>
+</html>
